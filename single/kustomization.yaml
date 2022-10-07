@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+namespace: single
+commonLabels:
+  env: single
+kind: Kustomization
+resources:
+- ../base
+patches:
+- patch: |-
+    - op: replace
+      path: "/spec/listeners/0/hostname"
+      value: "single.example.com"
+  target:
+    group: gateway.networking.k8s.io
+    version: v1alpha2
+    kind: Gateway
+- patch: |-
+    - op: replace
+      path: "/spec/hostnames/0"
+      value: "single.example.com"
+  target:
+    group: gateway.networking.k8s.io
+    version: v1alpha2
+    kind: HTTPRoute
